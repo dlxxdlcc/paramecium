@@ -1,20 +1,33 @@
 <template>
   <div id="app">
-    <router-view/>
+    <div class="content">
+      <router-view/>
+    </div>
     <hr>
+    <div id="nav-wrapper">
+      <Nav></Nav>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
+@import "~@/assets/normalize.css";
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+.content{
+  overflow: auto;
+  flex-grow: 1;
 }
 
-#nav {
+#nav-wrapper {
   padding: 30px;
 
   a {
