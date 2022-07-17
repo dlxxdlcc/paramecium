@@ -36,6 +36,10 @@ nav {
     align-items: center;
     flex-direction: column;
 
+    &.router-link-exact-active {
+      color: #42b983;
+    }
+
     .icon {
       padding: 2px 0;
       width: 32px;
@@ -44,5 +48,6 @@ nav {
 
   }
 }
+
 
 </style>

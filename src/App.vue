@@ -4,9 +4,7 @@
       <router-view/>
     </div>
     <hr>
-    <div id="nav-wrapper">
       <Nav></Nav>
-    </div>
   </div>
 </template>
 
@@ -34,15 +32,5 @@ a{
   flex-grow: 1;
 }
 
-#nav-wrapper {
-  padding: 30px;
 
-  a {
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
 </style>
