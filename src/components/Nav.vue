@@ -23,10 +23,12 @@ export default {
 </script>
 
 <style lang='scss' scoped>
+@import "~@/assets/style/fonts.scss";
+
 nav {
   display: flex;
-  box-shadow: 0 0 3px rgb(0, 0, 0, 0.25);
-  font-size: 16px;
+  box-shadow: 0 0 3px rgb(0, 0, 0, 0.08);
+  font-size: 14px;
 
 
   > .item {
@@ -37,13 +39,13 @@ nav {
     flex-direction: column;
 
     &.router-link-exact-active {
-      color: #42b983;
+      color: $para-color;
     }
 
     .icon {
-      padding: 2px 0;
-      width: 32px;
-      height: 32px;
+      padding: 5px 0 0 0;
+      width: 24px;
+      height: 24px;
     }
 
   }

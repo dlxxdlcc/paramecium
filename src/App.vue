@@ -9,20 +9,24 @@
 </template>
 
 <style lang="scss">
-@import "~@/assets/normalize.css";
+@import "~@/assets/style/normalize.css";
+@import "~@/assets/style/reset.scss";
+@import "~@/assets/style/fonts.scss";
+
+
 body{
-  line-height: 1.5;
+  line-height: 1.2;
+  font-family: $fonts-hei;
+  font-size: 16px;
+  border: 1px solid red;
+  box-sizing: border-box;
 }
-a{
-  text-decoration: none;
-  color: inherit;
-}
+
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #555555;
   display: flex;
   flex-direction: column;
   height: 100vh;

@@ -1,6 +1,6 @@
 <template>
     <div>
-        Label.vue
+
     </div>
 </template>
 
