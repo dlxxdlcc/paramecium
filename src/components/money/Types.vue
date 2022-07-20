@@ -1,16 +1,29 @@
 <template>
-    <div>
-        <ul class="types">
-          <li class="selected">支出</li>
-          <li>收入</li>
-        </ul>
-    </div>
+  <div>
+    <ul class="types">
+      <li :class="type==='-'&& 'selected'" @click="selectType('-')">支出</li>
+      <li :class="type==='+'&& 'selected'" @click="selectType('+')">收入</li>
+    </ul>
+  </div>
 </template>
 
 <script lang='ts'>
-export default {
-name: "Types"
+import Vue from 'vue';
+import {Component} from 'vue-property-decorator';
+
+@Component
+export default class Types extends Vue {
+  type = '-';
+
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  selectType(type: "-" | "+") {
+    if (type !== '-' && type !== '+') {
+      throw new Error('type is unknown');
+    }
+    this.type = type;
+  }
 }
+
 </script>
 
 <style lang='scss' scoped>
@@ -27,21 +40,21 @@ name: "Types"
 
   > li {
     background: #ffffff;
-    color:#a2cca4 ;
-      width: 28%;
-      height: 32px;
-      border-radius: 7px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      margin: 0 5px;
+    color: #a2cca4;
+    width: 28%;
+    height: 32px;
+    border-radius: 7px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
 
-    &.selected{
+    &.selected {
       background: #a2cca4;
-      color:#ffffff ;
+      color: #ffffff;
     }
 
-    }
+  }
 
 
 }
