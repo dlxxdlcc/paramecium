@@ -1,13 +1,22 @@
 <template>
   <label class="notes">
     <span class="name">备注</span>
-    <input type="text" placeholder="请输入备注">
+    <input type="text" v-model="xxx" placeholder="请输入备注">
   </label>
 </template>
 
 <script lang='ts'>
-export default {
-name: "Notes"
+import Vue from 'vue';
+import {Component, Prop, Watch} from 'vue-property-decorator';
+
+@Component
+export default class Notes extends Vue {
+  @Prop() readonly value!:string
+  xxx = this.value;
+  @Watch('value')
+  onValueChanged(value: string) {
+    this.$emit('update:value', value);
+  }
 }
 </script>
 
@@ -18,9 +27,11 @@ name: "Notes"
   padding-left: 16px;
   display: flex;
   align-items: center;
+
   .name {
     padding-right: 16px;
   }
+
   input {
     height: 64px;
     flex-grow: 1;

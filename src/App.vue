@@ -18,7 +18,6 @@ body{
   line-height: 1.2;
   font-family: $fonts-hei;
   font-size: 16px;
-  border: 1px solid red;
   box-sizing: border-box;
 }
 
