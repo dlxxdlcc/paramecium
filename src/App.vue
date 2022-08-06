@@ -19,6 +19,7 @@ body{
   font-family: $fonts-hei;
   font-size: 16px;
   box-sizing: border-box;
+  border: 1px solid red;
 }
 
 #app {

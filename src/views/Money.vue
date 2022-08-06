@@ -2,7 +2,7 @@
   <div class="money">
     <Types :value.sync="record.type"/>
     <Tags :value.sync="record.tags"/>
-    <Notes :value.sync="record.notes"/>
+    <Notes field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
   </div>
 </template>
@@ -14,9 +14,12 @@ import Notes from '@/components/money/Notes.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
+import recordListModel from '@/modules/recordListModel';
+import tagsListModel from '@/modules/tagListModel';
 
 
-const recordList: RecordItem[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
+const recordList: RecordItem[] = recordListModel.fetch();
+const tagsList= tagsListModel.fetch();
 
 @Component({
       components:
@@ -26,17 +29,18 @@ const recordList: RecordItem[] = JSON.parse(window.localStorage.getItem('recordL
     }
 )
 export default class Money extends Vue {
+  recordList: RecordItem[] = recordList;
+  tag =tagsList
+
   record: RecordItem = {
-    tags: ['衣', '食', '住', '行', '行行行'], notes: '', type: '-', amount: 0
+    tags: ['衣','食','住','行'], notes: '', type: '-', amount: 0
   };
 
-  recordList: RecordItem[] = recordList;
-
   saveRecord() {
-    const record2: RecordItem = JSON.parse(JSON.stringify(this.record));
+    const record2: RecordItem = recordListModel.clone(this.record);
     record2.createdAt = new Date();
     this.recordList.push(record2);
-    window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
+    recordListModel.save(this.recordList);
   }
 
 }
@@ -44,7 +48,6 @@ export default class Money extends Vue {
 
 <style lang='scss' scoped>
 .money {
-  border: 1px solid blue;
   height: 100%;
   display: flex;
   flex-direction: column;
