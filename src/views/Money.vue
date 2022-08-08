@@ -2,7 +2,9 @@
   <div class="money">
     <Types :value.sync="record.type"/>
     <Tags :value.sync="record.tags"/>
-    <Notes field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
+    <div class="notesWrapper">
+      <Notes field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
+    </div>
     <NumberPad :value.sync="record.amount" @submit="saveRecord"/>
   </div>
 </template>
@@ -19,7 +21,7 @@ import tagsListModel from '@/modules/tagListModel';
 
 
 const recordList: RecordItem[] = recordListModel.fetch();
-const tagsList= tagsListModel.fetch();
+const tagsList = tagsListModel.fetch();
 
 @Component({
       components:
@@ -30,10 +32,10 @@ const tagsList= tagsListModel.fetch();
 )
 export default class Money extends Vue {
   recordList: RecordItem[] = recordList;
-  tag =tagsList
+  tag = tagsList;
 
   record: RecordItem = {
-    tags: ['衣','食','住','行'], notes: '', type: '-', amount: 0
+    tags: ['衣', '食', '住', '行'], notes: '', type: '-', amount: 0
   };
 
   saveRecord() {
@@ -53,6 +55,11 @@ export default class Money extends Vue {
   flex-direction: column;
   justify-content: flex-end;
 
+}
+.notesWrapper{
+  border: 1px solid #f5f5f5;
+
+  padding: 12px 0;
 }
 
 </style>
