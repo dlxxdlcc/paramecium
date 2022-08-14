@@ -3,7 +3,7 @@
     <span class="name">{{ fieldName }}</span>
     <input type="text" :value=
         "value"
-           @input="onValueChanged($event.target.value)" :placeholder="this.placeholder">
+           @input="onValueChanged($event.target.value)" :placeholder="placeholder">
   </label>
 </template>
 
@@ -19,7 +19,7 @@ export default class Notes extends Vue {
 
 
 
-  @Watch('value')
+
   onValueChanged(value: string) {
     this.$emit('update:value', value);
   }
