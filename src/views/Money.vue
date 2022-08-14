@@ -35,7 +35,7 @@ export default class Money extends Vue {
   tag = tagsList;
 
   record: RecordItem = {
-    tags: ['衣', '食', '住', '行'], notes: '', type: '-', amount: 0
+    tags: this.tag, notes: '', type: '-', amount: 0
   };
 
   saveRecord() {

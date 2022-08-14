@@ -1,5 +1,6 @@
-import createId from '@/lib/createId.ts';
+import createId from '@/lib/createId';
 
+const localStorageKeyName = 'tagList';
 type Tag = {
     id: string;
     name: string;
@@ -12,12 +13,11 @@ type TagListModel = {
     remove: (id: string) => boolean
     save: () => void
 }
-
-const localStorageKeyName = 'tagList';
-const tagsListModel: TagListModel = {
+const tagListModel: TagListModel = {
     data: [],
     fetch() {
-        return this.data =JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]');
+        this.data = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]');
+        return this.data;
     },
     create(name) {
         // this.data = [{id:'1', name:'1'}, {id:'2', name:'2'}]
@@ -60,4 +60,4 @@ const tagsListModel: TagListModel = {
         window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.data));
     }
 };
-export default tagsListModel;
+export default tagListModel;

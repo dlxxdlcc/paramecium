@@ -1,38 +1,63 @@
 <template>
   <div class="label">
     <div class="nav">
-      <Icon name="left"></Icon>
+      <Icon name="left" @click.native="goLabels"></Icon>
       <span class="editSpan">编辑标签</span>
       <Icon></Icon>
     </div>
-    <Notes class="notes" field-name="标签名" placeholder="请输入标签名"></Notes>
-    <button class="deleteTags">删除标签</button>
+    <Notes class="notes" field-name="标签名" :value="tag.name" @update:value="updateTag" placeholder="请输入标签名"></Notes>
+    <button class="deleteTags" @click="removeTag">删除标签</button>
   </div>
 
 </template>
 
 <script lang='ts'>
-import Vue from 'vue';
+import Vue, {watch} from 'vue';
 import Component from 'vue-class-component';
 import tagsListModel from '@/modules/tagListModel';
 import Notes from '@/components/money/Notes.vue';
+import {Watch} from 'vue-property-decorator';
 
 @Component({
   components: {Notes}
 })
 export default class editLabel extends Vue {
-  create() {
+  tag?: {
+    id: string;
+    name: string;
+  } = undefined;
+
+  created() {
     const id = this.$route.params.id;
     tagsListModel.fetch();
     const tags = tagsListModel.data;
     const tag = tags.filter(item => item.id === id)[0];
     if (tag) {
-      console.log(tag);
+      this.tag = tag;
     } else {
       this.$router.replace('/404');
     }
+  }
+
+  updateTag(name: string) {
+    if (this.tag) {
+      tagsListModel.update(this.tag.id, name);
+    }
+  }
+
+  removeTag() {
+    if (this.tag) {
+      tagsListModel.remove(this.tag.id);
+      this.$router.replace('/labels');
+    }
 
   }
+  goLabels(){
+    this.$router.replace('/labels');
+
+  }
+
+
 }
 </script>
 
@@ -51,18 +76,19 @@ export default class editLabel extends Vue {
 
   }
 }
-.notes{
+
+.notes {
   border: 1px solid #f5f5f5;
 
 }
 
-  .deleteTags {
-    background: #a2cca4;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    height: 40px;
-    padding: 0 16px;
-    margin: 20px 0;
-  }
+.deleteTags {
+  background: #a2cca4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  height: 40px;
+  padding: 0 16px;
+  margin: 20px 0;
+}
 </style>
