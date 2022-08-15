@@ -1,7 +1,9 @@
 <template>
   <div>
     <div class="tags">
-      <router-link class="tag" v-for="tag in tags" :key="tag.id" :to="`/labels/edit/${tag.id}`"><span>{{ tag.name }}</span>
+      <router-link class="tag" v-for="tag in tags" :key="tag.id" :to="`/labels/edit/${tag.id}`"><span>{{
+          tag.name
+        }}</span>
         <icon name="right"></icon>
       </router-link>
     </div>
@@ -14,24 +16,16 @@
 <script lang='ts'>
 import Vue from 'vue';
 import Component from 'vue-class-component';
-import tagListModel from '@/modules/tagListModel';
-
- tagListModel.fetch();
 
 
 @Component
 export default class Labels extends Vue {
-  tags = tagListModel.data;
+  tags = window.tagList;
 
   createTag() {
     const name = window.prompt('请输入标签名');
     if (name) {
-      const message = tagListModel.create(name);
-      if (message === 'duplicated') {
-        window.alert('标签名重复了');
-      } else if (message === 'success') {
-        window.alert('添加成功');
-      }
+      window.createTag(name);
     }
   }
 

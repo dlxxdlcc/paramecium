@@ -16,12 +16,8 @@ import Notes from '@/components/money/Notes.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
-import recordListModel from '@/modules/recordListModel';
-import tagsListModel from '@/modules/tagListModel';
 
 
-const recordList: RecordItem[] = recordListModel.fetch();
-const tagsList = tagsListModel.fetch();
 
 @Component({
       components:
@@ -31,18 +27,15 @@ const tagsList = tagsListModel.fetch();
     }
 )
 export default class Money extends Vue {
-  recordList: RecordItem[] = recordList;
-  tag = tagsList;
+  recordList: RecordItem[] = window.recordList;
+  tag = window.tagList;
 
   record: RecordItem = {
     tags: this.tag, notes: '', type: '-', amount: 0
   };
 
   saveRecord() {
-    const record2: RecordItem = recordListModel.clone(this.record);
-    record2.createdAt = new Date();
-    this.recordList.push(record2);
-    recordListModel.save(this.recordList);
+    window.createRecord(this.record);
   }
 
 }
@@ -56,7 +49,8 @@ export default class Money extends Vue {
   justify-content: flex-end;
 
 }
-.notesWrapper{
+
+.notesWrapper {
   border: 1px solid #f5f5f5;
 
   padding: 12px 0;

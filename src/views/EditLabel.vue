@@ -12,11 +12,9 @@
 </template>
 
 <script lang='ts'>
-import Vue, {watch} from 'vue';
+import Vue from 'vue';
 import Component from 'vue-class-component';
-import tagsListModel from '@/modules/tagListModel';
 import Notes from '@/components/money/Notes.vue';
-import {Watch} from 'vue-property-decorator';
 
 @Component({
   components: {Notes}
@@ -28,31 +26,27 @@ export default class editLabel extends Vue {
   } = undefined;
 
   created() {
-    const id = this.$route.params.id;
-    tagsListModel.fetch();
-    const tags = tagsListModel.data;
-    const tag = tags.filter(item => item.id === id)[0];
-    if (tag) {
-      this.tag = tag;
-    } else {
+    this.tag = window.findTag(this.$route.params.id);
+    if (!this.tag) {
       this.$router.replace('/404');
     }
   }
 
   updateTag(name: string) {
     if (this.tag) {
-      tagsListModel.update(this.tag.id, name);
+      window.updateTag(this.tag.id, name);
     }
   }
 
   removeTag() {
     if (this.tag) {
-      tagsListModel.remove(this.tag.id);
-      this.$router.replace('/labels');
+      window.removeTag(this.tag.id);
+      this.$router.back();
     }
 
   }
-  goLabels(){
+
+  goLabels() {
     this.$router.replace('/labels');
 
   }
