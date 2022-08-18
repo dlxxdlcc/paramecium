@@ -15,6 +15,7 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Notes from '@/components/money/Notes.vue';
+import store from '@/store/index2.ts';
 
 @Component({
   components: {Notes}
@@ -26,7 +27,7 @@ export default class editLabel extends Vue {
   } = undefined;
 
   created() {
-    this.tag = window.findTag(this.$route.params.id);
+    this.tag = store.findTag(this.$route.params.id);
     if (!this.tag) {
       this.$router.replace('/404');
     }
@@ -34,13 +35,13 @@ export default class editLabel extends Vue {
 
   updateTag(name: string) {
     if (this.tag) {
-      window.updateTag(this.tag.id, name);
+      store.updateTag(this.tag.id, name);
     }
   }
 
   removeTag() {
     if (this.tag) {
-      window.removeTag(this.tag.id);
+      store.removeTag(this.tag.id);
       this.$router.back();
     }
 

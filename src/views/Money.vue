@@ -16,6 +16,7 @@ import Notes from '@/components/money/Notes.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
+import store from '@/store/index2';
 
 
 
@@ -27,15 +28,15 @@ import {Component, Watch} from 'vue-property-decorator';
     }
 )
 export default class Money extends Vue {
-  recordList: RecordItem[] = window.recordList;
-  tag = window.tagList;
+  recordList: RecordItem[] = store.recordList;
+  tag = store.tagList;
 
   record: RecordItem = {
     tags: this.tag, notes: '', type: '-', amount: 0
   };
 
   saveRecord() {
-    window.createRecord(this.record);
+    store.createRecord(this.record);
   }
 
 }
