@@ -1,7 +1,7 @@
 <template>
   <div class="money">
     <Types :value.sync="record.type"/>
-    <Tags :value.sync="record.tags"/>
+    <Tags :value="record.tags"/>
     <div class="notesWrapper">
       <Notes field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
     </div>
