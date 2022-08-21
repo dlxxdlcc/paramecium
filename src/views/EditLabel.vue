@@ -5,7 +5,8 @@
       <span class="editSpan">编辑标签</span>
       <Icon></Icon>
     </div>
-    <Notes class="notes" field-name="标签名" :value="tag.name" @update:value="updateTag" placeholder="请输入标签名"></Notes>
+    <Notes class="notes" field-name="标签名" :value="currentTag.name" @update:value="updateTag"
+           placeholder="请输入标签名"></Notes>
     <button class="deleteTags" @click="removeTag">删除标签</button>
   </div>
 
@@ -15,34 +16,38 @@
 import Vue from 'vue';
 import Component from 'vue-class-component';
 import Notes from '@/components/money/Notes.vue';
-import store from '@/store/index2.ts';
+import store from '@/store/index.ts';
 
 @Component({
   components: {Notes}
 })
 export default class editLabel extends Vue {
-  tag?: {
-    id: string;
-    name: string;
-  } = undefined;
+
+
+  get currentTag() {
+    return this.$store.state.currentTag;
+  }
 
   created() {
-    this.tag = store.findTag(this.$route.params.id);
-    if (!this.tag) {
+    const id = this.$route.params.id;
+    this.$store.commit('fetchTags');
+    this.$store.commit('setCurrentTag', id);
+    if (!this.currentTag) {
       this.$router.replace('/404');
     }
   }
 
   updateTag(name: string) {
-    if (this.tag) {
-      store.updateTag(this.tag.id, name);
+    if (this.currentTag) {
+      this.$store.commit('updateTag', {
+        id: this.currentTag.id, name
+      });
     }
   }
 
   removeTag() {
-    if (this.tag) {
-      store.removeTag(this.tag.id);
-      this.$router.back();
+    if (this.currentTag) {
+      this.$store.commit('removeTag', this.currentTag.id);
     }
 
   }

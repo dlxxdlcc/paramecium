@@ -1,7 +1,7 @@
 <template>
   <div class="money">
     <Types :value.sync="record.type"/>
-    <Tags :value="record.tags"/>
+    <Tags/>
     <div class="notesWrapper">
       <Notes field-name="备注" placeholder="在这里输入备注" :value.sync="record.notes"/>
     </div>
@@ -16,27 +16,38 @@ import Notes from '@/components/money/Notes.vue';
 import NumberPad from '@/components/money/NumberPad.vue';
 import Vue from 'vue';
 import {Component, Watch} from 'vue-property-decorator';
-import store from '@/store/index2';
-
 
 
 @Component({
       components:
           {
             Types, Tags, Notes, NumberPad
-          }
+          },
     }
 )
 export default class Money extends Vue {
-  recordList: RecordItem[] = store.recordList;
-  tag = store.tagList;
+
+  get recordList() {
+    return this.$store.state.recordList;
+  }
+
+  get tagList() {
+    return this.$store.state.tagList;
+  }
 
   record: RecordItem = {
-    tags: this.tag, notes: '', type: '-', amount: 0
+    tags: [], notes: '', type: '-', amount: 0
   };
 
+  created() {
+    this.$store.commit('fetchRecords');
+
+  }
+
   saveRecord() {
-    store.createRecord(this.record);
+    this.$store.commit('fetchTags');
+    this.record.tags = this.tagList;
+    this.$store.commit('createRecord', this.record);
   }
 
 }
