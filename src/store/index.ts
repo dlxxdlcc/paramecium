@@ -8,6 +8,7 @@ Vue.use(Vuex);
 
 type RootState = {
     recordList: RecordItem[],
+    createRecordError:Error | null,
     tagList: Tag[],
     currentTag?: Tag
 }
@@ -15,9 +16,10 @@ type RootState = {
 const store = new Vuex.Store({
     state: {
         recordList: [],
+        createRecordError:null,
         tagList: [],
         currentTag: undefined
-    }as RootState,
+    } as RootState,
     mutations: {
         updateTag(state, payload: { id: string, name: string }) {
             const {id, name} = payload;
@@ -56,10 +58,11 @@ const store = new Vuex.Store({
         },
         fetchRecords(state) {
             state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
+
         },
-        createRecord(state, record) {
+        createRecord(state, record: RecordItem) {
             const record2: RecordItem = clone(record);
-            record2.createdAt = new Date();
+            record2.createdAt = new Date().toISOString();
             state.recordList.push(record2);
             store.commit('saveRecords');
 
@@ -69,7 +72,14 @@ const store = new Vuex.Store({
                 JSON.stringify(state.recordList));
         },
         fetchTags(state) {
-             state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+            state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+            if (!state.tagList || state.tagList.length === 0) {
+                store.commit('createTag', '衣');
+                store.commit('createTag', '食');
+                store.commit('createTag', '住');
+                store.commit('createTag', '行');
+
+            }
         },
         createTag(state, name: string) {
             const names = state.tagList.map(item => item.name);
@@ -79,7 +89,6 @@ const store = new Vuex.Store({
             const id = createId().toString();
             state.tagList.push({id, name: name});
             store.commit('saveTags');
-            window.alert('添加成功');
         },
         saveTags(state) {
             window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
